@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/PerryLink/dsh-research-bench/main/schema/citation-case.schema.json",
+  "title": "Citation verification benchmark case",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "category", "description", "input", "providers", "expected"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^cite-[0-9]{4}$" },
+    "category": {
+      "enum": ["correct", "wrong-author", "wrong-year", "wrong-doi", "retracted", "correction", "preprint", "disagreement"]
+    },
+    "description": { "type": "string", "minLength": 1, "maxLength": 500 },
+    "input": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "doi": { "type": "string", "minLength": 1 },
+        "pmid": { "type": "string", "minLength": 1 },
+        "arxiv": { "type": "string", "minLength": 1 },
+        "bibtex": { "type": "string", "minLength": 1 },
+        "title": { "type": "string" },
+        "authors": { "type": "array", "items": { "type": "string" } },
+        "year": { "type": "integer" },
+        "venue": { "type": "string" },
+        "pages": { "type": "string" }
+      }
+    },
+    "providers": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["match", "status", "body"],
+        "properties": {
+          "match": { "type": "string", "minLength": 1 },
+          "status": { "type": "integer", "minimum": 100, "maximum": 599 },
+          "body": {}
+        }
+      }
+    },
+    "expected": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["exists", "mismatch_fields", "update_notice"],
+      "properties": {
+        "exists": { "type": "boolean" },
+        "mismatch_fields": {
+          "type": "array",
+          "items": { "enum": ["title", "authors", "year", "venue", "pages", "version"] },
+          "uniqueItems": true
+        },
+        "update_notice": { "type": "boolean" }
+      }
+    }
+  }
+}

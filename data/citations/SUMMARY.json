@@ -1,0 +1,28 @@
+{
+  "dataset": "citations",
+  "version": "0.1.0",
+  "generatedAt": "2026-11-08",
+  "total": 100,
+  "byCategory": {
+    "correct": 30,
+    "wrong-author": 20,
+    "wrong-year": 15,
+    "wrong-doi": 15,
+    "retracted": 8,
+    "correction": 6,
+    "preprint": 4,
+    "disagreement": 2
+  },
+  "labelSpace": {
+    "mismatchFields": [
+      "title",
+      "authors",
+      "year",
+      "venue",
+      "pages",
+      "version"
+    ]
+  },
+  "synthetic": true,
+  "note": "All works, DOIs and venues are fictional; provider responses are frozen fixtures. Ground truth comes from this generator, never from a plugin."
+}

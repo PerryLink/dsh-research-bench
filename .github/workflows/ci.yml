@@ -1,0 +1,24 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - name: Regenerate (must match the committed data)
+        run: node scripts/generate-citations.mjs
+      - name: No drift
+        run: git diff --exit-code -- data/
+      - name: Validate
+        run: node scripts/validate.mjs
