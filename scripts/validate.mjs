@@ -83,4 +83,26 @@ try {
   if (error?.code !== 'ENOENT') throw error
 }
 
-console.log(`validate: ok (${citationCases.length} citation cases in ${Object.keys(byCategory).length} categories, ${statCount} stat cases)`)
+// ── claims ──────────────────────────────────────────────────────────────────
+let claimCount = 0
+try {
+  const claimCases = readJsonl('data/claims/cases.jsonl')
+  if (claimCases.length !== 50) fail(`expected 50 claim cases, found ${claimCases.length}`)
+  claimCount = claimCases.length
+  const claimIds = new Set()
+  const claimCategories = new Set(['supported', 'paraphrase', 'number-wrong', 'negated', 'quote-mined', 'insufficient'])
+  const verdicts = new Set(['verified', 'unverified', 'insufficient', 'contradicted', 'disproven'])
+  for (const item of claimCases) {
+    if (!/^claim-[0-9]{4}$/u.test(item.id ?? '')) fail(`bad claim id ${String(item.id)}`)
+    if (claimIds.has(item.id)) fail(`duplicate claim id ${item.id}`)
+    claimIds.add(item.id)
+    if (!claimCategories.has(item.category)) fail(`${item.id}: unknown category ${item.category}`)
+    if (typeof item.claim !== 'string' || item.claim === '') fail(`${item.id}: claim missing`)
+    if (typeof item.source !== 'string' || item.source === '') fail(`${item.id}: source missing`)
+    if (!verdicts.has(item.expected?.verdict)) fail(`${item.id}: bad expected.verdict`)
+  }
+} catch (error) {
+  if (error?.code !== 'ENOENT') throw error
+}
+
+console.log(`validate: ok (${citationCases.length} citation cases in ${Object.keys(byCategory).length} categories, ${statCount} stat cases, ${claimCount} claim cases)`)

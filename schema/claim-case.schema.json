@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/PerryLink/dsh-research-bench/main/schema/claim-case.schema.json",
+  "title": "Claim-support benchmark case",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "category", "claim", "source", "expected"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^claim-[0-9]{4}$" },
+    "category": { "enum": ["supported", "paraphrase", "number-wrong", "negated", "quote-mined", "insufficient"] },
+    "claim": { "type": "string", "minLength": 1, "maxLength": 2000 },
+    "source": { "type": "string", "minLength": 1, "maxLength": 4000 },
+    "description": { "type": "string", "maxLength": 500 },
+    "expected": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["verdict"],
+      "properties": {
+        "verdict": { "enum": ["verified", "unverified", "insufficient", "contradicted", "disproven"] }
+      }
+    }
+  }
+}

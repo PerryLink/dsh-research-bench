@@ -23,7 +23,7 @@
 |---|---:|---|---|
 | `data/citations` | **100** | ✅ 冻结 | `dsh-cite-verify` |
 | `data/stats` | **30** | ✅ 冻结 | `dsh-statcheck` |
-| `data/claims` | 50 | 🚧 随 `dsh-claim-check`（W2） | `dsh-claim-check` |
+| `data/claims` | **50** | ✅ 冻结 | `dsh-claim-check` |
 | `data/repro` | 10 | 🚧 随 `dsh-repro-audit`（W2） | `dsh-repro-audit` |
 | `data/manuscripts` | 10 | 🚧 随 `dsh-manuscript-check`（W3） | `dsh-manuscript-check` |
 | `data/figures` | 100 对 | 🚧 随 `dsh-image-integrity`（W4） | `dsh-image-integrity` |

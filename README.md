@@ -25,10 +25,19 @@ Every plugin in the family claims to *verify* something. A claim without a measu
 |---|---:|---|---|
 | `data/citations` | **100** | ✅ frozen | `dsh-cite-verify` |
 | `data/stats` | **30** | ✅ frozen | `dsh-statcheck` |
-| `data/claims` | 50 | 🚧 with `dsh-claim-check` (W2) | `dsh-claim-check` |
+| `data/claims` | **50** | ✅ frozen | `dsh-claim-check` |
 | `data/repro` | 10 | 🚧 with `dsh-repro-audit` (W2) | `dsh-repro-audit` |
 | `data/manuscripts` | 10 | 🚧 with `dsh-manuscript-check` (W3) | `dsh-manuscript-check` |
 | `data/figures` | 100 pairs | 🚧 with `dsh-image-integrity` (W4) | `dsh-image-integrity` |
+
+### `data/claims` (v0.1.0, frozen)
+
+50 claims over five synthetic paragraphs: 15 supported (`verified`), 10
+paraphrases (**`insufficient` by design** — v0.1 does not do semantics), 8
+number-wrong (`disproven`), 7 negation-flips and 5 quote-mines (`contradicted`),
+5 absent-content (`insufficient`). Schema:
+[`schema/claim-case.schema.json`](schema/claim-case.schema.json); rules and the
+validity caveat: [`rubric/CLAIMS.md`](rubric/CLAIMS.md).
 
 ### `data/stats` (v0.1.0, frozen)
 
