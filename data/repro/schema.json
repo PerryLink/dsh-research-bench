@@ -1,0 +1,335 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/PerryLink/dsh-research-bench/main/data/repro/schema.json",
+  "title": "Synthetic reproducibility-audit benchmark case",
+  "description": "One line of data/repro/cases.jsonl. `files` is the initial tree written before the git mode is applied; `git` then commits it and, for dirty/commit-then-modify, adds the uncommitted change. `drift` is applied after the manifest is recorded. Paths are POSIX-relative and must stay inside the fixture project.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "category",
+    "description",
+    "files",
+    "git",
+    "expected",
+    "drift"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^repro-[0-9]{4}$"
+    },
+    "category": {
+      "enum": [
+        "complete",
+        "evidence-gap",
+        "runtime-gap",
+        "git-gap",
+        "drift"
+      ]
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 500
+    },
+    "files": {
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": {
+        "pattern": "^[^/\\\\][^\\\\]*$"
+      },
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "git": {
+      "enum": [
+        "none",
+        "commit",
+        "dirty",
+        "commit-then-modify"
+      ],
+      "description": "none: no repository. commit: init/add/commit, clean. dirty: commit then add an untracked notes.txt. commit-then-modify: commit then append a comment to the tracked analysis.py."
+    },
+    "expected": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "level",
+        "gaps"
+      ],
+      "properties": {
+        "level": {
+          "enum": [
+            "reproducible",
+            "partial",
+            "not_reproducible"
+          ]
+        },
+        "gaps": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "no_git_commit",
+              "dirty_worktree",
+              "no_lockfile",
+              "no_run_command",
+              "no_seed",
+              "no_data",
+              "no_environment",
+              "unhashed_data",
+              "no_figures",
+              "scan_truncated"
+            ]
+          }
+        }
+      }
+    },
+    "drift": {
+      "type": "string",
+      "pattern": "^(none|(modify|delete):[A-Za-z0-9._/-]+)$",
+      "description": "Applied after the manifest. modify appends one LF to the recorded file; delete removes it."
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "git": {
+            "const": "none"
+          }
+        },
+        "required": [
+          "git"
+        ]
+      },
+      "then": {
+        "properties": {
+          "expected": {
+            "properties": {
+              "gaps": {
+                "contains": {
+                  "const": "no_git_commit"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "git": {
+            "enum": [
+              "commit",
+              "dirty",
+              "commit-then-modify"
+            ]
+          }
+        },
+        "required": [
+          "git"
+        ]
+      },
+      "then": {
+        "properties": {
+          "expected": {
+            "properties": {
+              "gaps": {
+                "not": {
+                  "contains": {
+                    "const": "no_git_commit"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "git": {
+            "enum": [
+              "dirty",
+              "commit-then-modify"
+            ]
+          }
+        },
+        "required": [
+          "git"
+        ]
+      },
+      "then": {
+        "properties": {
+          "expected": {
+            "properties": {
+              "gaps": {
+                "contains": {
+                  "const": "dirty_worktree"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "git": {
+            "enum": [
+              "none",
+              "commit"
+            ]
+          }
+        },
+        "required": [
+          "git"
+        ]
+      },
+      "then": {
+        "properties": {
+          "expected": {
+            "properties": {
+              "gaps": {
+                "not": {
+                  "contains": {
+                    "const": "dirty_worktree"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "expected": {
+            "properties": {
+              "gaps": {
+                "contains": {
+                  "enum": [
+                    "no_git_commit",
+                    "no_lockfile",
+                    "no_run_command"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "gaps"
+            ]
+          }
+        },
+        "required": [
+          "expected"
+        ]
+      },
+      "then": {
+        "properties": {
+          "expected": {
+            "properties": {
+              "level": {
+                "const": "not_reproducible"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "expected": {
+            "properties": {
+              "gaps": {
+                "contains": {
+                  "enum": [
+                    "dirty_worktree",
+                    "no_seed",
+                    "no_data",
+                    "no_environment",
+                    "unhashed_data",
+                    "scan_truncated"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "gaps"
+            ]
+          }
+        },
+        "required": [
+          "expected"
+        ]
+      },
+      "then": {
+        "properties": {
+          "expected": {
+            "properties": {
+              "level": {
+                "enum": [
+                  "partial",
+                  "not_reproducible"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "expected": {
+            "properties": {
+              "gaps": {
+                "not": {
+                  "contains": {
+                    "enum": [
+                      "no_git_commit",
+                      "no_lockfile",
+                      "no_run_command",
+                      "dirty_worktree",
+                      "no_seed",
+                      "no_data",
+                      "no_environment",
+                      "unhashed_data",
+                      "scan_truncated"
+                    ]
+                  }
+                }
+              }
+            },
+            "required": [
+              "gaps"
+            ]
+          }
+        },
+        "required": [
+          "expected"
+        ]
+      },
+      "then": {
+        "properties": {
+          "expected": {
+            "properties": {
+              "level": {
+                "const": "reproducible"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

@@ -33,6 +33,10 @@ Every plugin in the family claims to *verify* something. A claim without a measu
 | `data/manuscripts` | **10** | ✅ frozen | `dsh-manuscript-check` |
 | `data/figures` | 100 pairs | 🚧 with `dsh-image-integrity` (W4) | `dsh-image-integrity` |
 
+### `data/repro` (v0.1.0, frozen)
+
+10 recipe-based project fixtures materialised in a temporary directory (no `.git` committed): clean, missing seed/lockfile, no git, dirty tree, missing run command/environment pin, and three post-manifest drift cases. Levels and exact gap sets are assigned by the recipe; the plugin README reports level accuracy, gap precision/recall, drift detection and the git prerequisite.
+
 ### `data/manuscripts` (v0.1.0, frozen)
 
 10 synthetic manuscripts with 140 item labels (14 structure/declaration items each) and document-level `missingCoreSections`. Labels are assigned by construction in the generator, not by the detector. The plugin README reports item-level present/missing precision/recall and states that this is a keyword-detection regression baseline, not a compliance audit.
@@ -119,7 +123,7 @@ A plugin README must report all of the above (or explicitly state which it does 
 ## Reproduce
 
 ```sh
-npm run generate        # deterministic; rewrites data/citations, data/stats, data/claims, data/claims-heldout, data/images, data/meta and data/manuscripts
+npm run generate        # deterministic; rewrites data/citations, data/stats, data/claims, data/claims-heldout, data/images, data/meta, data/manuscripts and data/repro
 npm run validate        # structure + counts + categories + label space + SUMMARY agreement
 ```
 
@@ -136,7 +140,7 @@ CI runs both and fails if regeneration changes a committed file — the dataset 
 - Synthetic works have clean, English, well-formed metadata; real bibliographies contain transliteration, name particles, superscripts and venue abbreviations that this set does not exercise.
 - Frozen fixtures cannot catch provider-side format changes; those are covered by the plugins' own tests.
 - The labels encode the rubric of *this* repository. A disagreement between a plugin and a label is a finding to review, not automatically a plugin bug.
-- Citations, stats, claims, claims-heldout, images, meta and manuscripts are frozen at v0.1.0. Only the repro dataset remains planned.
+- All six datasets are frozen at v0.1.0: citations, stats, claims, claims-heldout, images, meta, manuscripts and repro.
 - The claims v0.1 set is a co-designed regression baseline (see the caveat above); it is not a held-out test set.
 
 ## Versioning

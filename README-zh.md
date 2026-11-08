@@ -33,6 +33,10 @@
 | `data/manuscripts` | **10** | ✅ 已冻结 | `dsh-manuscript-check` |
 | `data/figures` | 100 对 | 🚧 随 `dsh-image-integrity`（W4） | `dsh-image-integrity` |
 
+### `data/repro`（v0.1.0，已冻结）
+
+10 个 recipe 夹具项目，运行时在临时目录生成（不提交 `.git`）：干净、缺 seed/lockfile、无 git、脏树、缺运行命令/env 钉，以及 3 个记录后漂移用例。级别与精确 gap 集合由 recipe 指定；插件 README 报告 level 准确率、gap P/R、漂移检出与 git 前置条件。
+
 ### `data/manuscripts`（v0.1.0，已冻结）
 
 10 篇合成稿件、140 个条目标签（每篇 14 项结构/声明）与文档级 `missingCoreSections`。标签由生成器按构造给出，不由检测器反推；插件 README 报告条目级 present/missing P/R，并声明这是关键词检测的回归基线，不是合规审查。
@@ -122,7 +126,7 @@ CI 会运行这两个命令，并在重新生成会改动已提交文件时判�
 - 合成工作具有干净、英文、格式规整的元数据；真实文献中的转写、姓名助词、上标与期刊缩写，这个数据集都没有覆盖。
 - 冻结 fixture 无法捕捉数据源一侧的格式变更；这类问题由插件自身的测试覆盖。
 - 标签编码的是*本仓库*的评分规则。插件与标签不一致，是一个需要复核的发现，而不是自动等同于插件有 bug。
-- citations、stats、claims、claims-heldout、images、meta 与 manuscripts 冻结在 v0.1.0；仅 repro 数据集仍在计划中。
+- 六套数据集全部冻结在 v0.1.0：citations、stats、claims、claims-heldout、images、meta、manuscripts 与 repro。
 - claims v0.1 数据集是共同设计的回归基线（见上文有效性说明）；它不是 held-out 测试集。
 
 ## 版本管理

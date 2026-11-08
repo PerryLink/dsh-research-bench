@@ -1,0 +1,76 @@
+{
+  "dataset": "repro",
+  "version": "0.1.0",
+  "total": 10,
+  "synthetic": true,
+  "byCategory": {
+    "complete": 1,
+    "evidence-gap": 2,
+    "runtime-gap": 2,
+    "git-gap": 2,
+    "drift": 3
+  },
+  "byLevel": {
+    "reproducible": 4,
+    "partial": 3,
+    "not_reproducible": 3
+  },
+  "byGit": {
+    "none": 1,
+    "commit": 7,
+    "dirty": 1,
+    "commit-then-modify": 1
+  },
+  "byDrift": {
+    "none": 7,
+    "modify": 2,
+    "delete": 1
+  },
+  "gapCodesExercised": [
+    "no_git_commit",
+    "dirty_worktree",
+    "no_lockfile",
+    "no_run_command",
+    "no_seed",
+    "no_environment"
+  ],
+  "labelSpace": {
+    "category": [
+      "complete",
+      "evidence-gap",
+      "runtime-gap",
+      "git-gap",
+      "drift"
+    ],
+    "level": [
+      "reproducible",
+      "partial",
+      "not_reproducible"
+    ],
+    "git": [
+      "none",
+      "commit",
+      "dirty",
+      "commit-then-modify"
+    ],
+    "drift": [
+      "none",
+      "modify",
+      "delete"
+    ],
+    "gap": [
+      "no_git_commit",
+      "dirty_worktree",
+      "no_lockfile",
+      "no_run_command",
+      "no_seed",
+      "no_data",
+      "no_environment",
+      "unhashed_data",
+      "no_figures",
+      "scan_truncated"
+    ]
+  },
+  "groundTruth": "Hand-authored from each recipe and the scanner's documented gap rules; the generator does not import dsh-repro-audit and never fits an expected value to plugin output. The expected level is the level at manifest-record time; drift is scored separately by the adapter.",
+  "caseSchema": "schema.json"
+}

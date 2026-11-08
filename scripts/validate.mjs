@@ -401,7 +401,46 @@ if (manuscriptSummary.dataset !== 'manuscripts' || manuscriptSummary.total !== 1
 if (manuscriptSummary.synthetic !== true) fail('data/manuscripts/SUMMARY.json must declare synthetic: true')
 if (!sameCounts(manuscriptSummary.byCategory, manuscriptCategoryCounts)) fail('data/manuscripts/SUMMARY.json: byCategory disagrees')
 
+
+// ── repro ───────────────────────────────────────────────────────────────────
+const reproCases = readJsonl('data/repro/cases.jsonl')
+if (reproCases.length !== 10) fail(`expected 10 repro cases, found ${reproCases.length}`)
+const REPRO_LEVELS = ['reproducible','partial','not_reproducible']
+const REPRO_GIT = ['none','commit','dirty','commit-then-modify']
+const REPRO_DRIFT = ['none','modify','delete']
+const reproCategoryCounts = {}
+const reproLevelCounts = {}
+const reproIds = new Set()
+for (const [index, item] of reproCases.entries()) {
+  const where = `data/repro/cases.jsonl:${index + 1}`
+  if (typeof item.id !== 'string' || !/^repro-[0-9]{4}$/u.test(item.id)) fail(`${where}: bad id ${String(item.id)}`)
+  if (reproIds.has(item.id)) fail(`${where}: duplicate id ${item.id}`)
+  reproIds.add(item.id)
+  if (typeof item.category !== 'string' || item.category === '') fail(`${where}: category missing`)
+  if (typeof item.files !== 'object' || item.files === null || Object.keys(item.files).length === 0) fail(`${where}: files map missing`)
+  for (const [name, content] of Object.entries(item.files)) {
+    if (name.startsWith('/') || name.includes('..')) fail(`${where}: unsafe fixture path ${name}`)
+    if (typeof content !== 'string') fail(`${where}: fixture ${name} must be a string`)
+  }
+  if (!REPRO_GIT.includes(item.git)) fail(`${where}: bad git mode ${String(item.git)}`)
+  if (item.drift !== 'none' && !/^(modify|delete):.+/u.test(item.drift)) fail(`${where}: bad drift mode ${String(item.drift)}`)
+  if (!REPRO_LEVELS.includes(item.expected?.level)) fail(`${where}: bad expected.level`)
+  if (!Array.isArray(item.expected?.gaps)) fail(`${where}: expected.gaps must be an array`)
+  if (!item.expected.gaps.every(gap => typeof gap === 'string' && /^[a-z0-9_]+$/u.test(gap))) fail(`${where}: bad gap code`)
+  if ((item.drift === 'none') !== (item.expected.gaps.length === 0)) {
+    // Drift cases are still expected to be reproducible at manifest time.
+    if (item.drift !== 'none' && item.expected.level !== 'reproducible') fail(`${where}: drift cases must be reproducible at manifest time`)
+  }
+  reproCategoryCounts[item.category] = (reproCategoryCounts[item.category] ?? 0) + 1
+  reproLevelCounts[item.expected.level] = (reproLevelCounts[item.expected.level] ?? 0) + 1
+}
+const reproSummary = readJson('data/repro/SUMMARY.json')
+if (reproSummary.dataset !== 'repro' || reproSummary.total !== 10) fail('data/repro/SUMMARY.json: wrong dataset or total')
+if (reproSummary.synthetic !== true) fail('data/repro/SUMMARY.json must declare synthetic: true')
+if (!sameCounts(reproSummary.byCategory, reproCategoryCounts)) fail('data/repro/SUMMARY.json: byCategory disagrees')
+if (!sameCounts(reproSummary.byLevel, reproLevelCounts)) fail('data/repro/SUMMARY.json: byLevel disagrees')
+
 console.log(
   `validate: ok (${citationCases.length} citation cases in ${Object.keys(citationCounts).length} categories, ` +
-    `${statCases.length} stat cases, ${claimCases.length} claim cases, ${imageCases.length} image pairs, ${metaCases.length} meta cases, ${heldoutCases.length} held-out claim cases, ${manuscriptCases.length} manuscripts (${manuscriptLabels} labels); counts, categories, labels and SUMMARY agree)`,
+    `${statCases.length} stat cases, ${claimCases.length} claim cases, ${imageCases.length} image pairs, ${metaCases.length} meta cases, ${heldoutCases.length} held-out claim cases, ${manuscriptCases.length} manuscripts (${manuscriptLabels} labels), ${reproCases.length} repro projects; counts, categories, labels and SUMMARY agree)`,
 )
