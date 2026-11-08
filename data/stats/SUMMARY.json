@@ -1,0 +1,32 @@
+{
+  "dataset": "stats",
+  "version": "0.1.0",
+  "generatedAt": "2026-11-08",
+  "total": 30,
+  "byVerdict": {
+    "consistent": 10,
+    "inconsistent": 20
+  },
+  "byIssue": {
+    "none": 10,
+    "p-value": 15,
+    "ci": 2,
+    "format": 2,
+    "p-threshold": 1
+  },
+  "labelSpace": {
+    "verdict": [
+      "consistent",
+      "inconsistent"
+    ],
+    "issue": [
+      "p-value",
+      "p-threshold",
+      "ci",
+      "format",
+      "df"
+    ]
+  },
+  "synthetic": true,
+  "groundTruth": "published critical values: at the .05 (or .01) critical value the reported probability is .05 (.01); inconsistency labels are constructed by changing exactly one thing."
+}

@@ -1,0 +1,30 @@
+{"id":"stat-0001","text":"Results: The effect was significant, t(28) = 2.048, p = .050.","expected":{"verdict":"consistent","issue":null}}
+{"id":"stat-0002","text":"Results: A second sample replicated it, t(10) = 2.228, p = .050.","expected":{"verdict":"consistent","issue":null}}
+{"id":"stat-0003","text":"Results: A larger sample agreed, t(60) = 2.000, p = .050.","expected":{"verdict":"consistent","issue":null}}
+{"id":"stat-0004","text":"Results: The omnibus test was significant, F(2, 27) = 3.354, p = .050.","expected":{"verdict":"consistent","issue":null}}
+{"id":"stat-0005","text":"Results: The one-way test was significant, F(1, 30) = 4.171, p = .050.","expected":{"verdict":"consistent","issue":null}}
+{"id":"stat-0006","text":"Results: The association was significant, χ²(1) = 3.841, p = .050.","expected":{"verdict":"consistent","issue":null}}
+{"id":"stat-0007","text":"Results: The three-level test was significant, χ²(2) = 5.991, p = .050.","expected":{"verdict":"consistent","issue":null}}
+{"id":"stat-0008","text":"Results: The correlation was significant, r(28) = .361, p = .050.","expected":{"verdict":"consistent","issue":null}}
+{"id":"stat-0009","text":"Results: The standardized difference was significant, z = 1.960, p = .050.","expected":{"verdict":"consistent","issue":null}}
+{"id":"stat-0010","text":"Results: The effect was significant, t(28) = 2.500, p = .019.","expected":{"verdict":"consistent","issue":null}}
+{"id":"stat-0011","text":"Results: The effect was significant, t(28) = 2.048, p = .010.","expected":{"verdict":"inconsistent","issue":"p-value"}}
+{"id":"stat-0012","text":"Results: The effect was significant, t(10) = 2.228, p = .001.","expected":{"verdict":"inconsistent","issue":"p-value"}}
+{"id":"stat-0013","text":"Results: The omnibus test was significant, F(2, 27) = 3.354, p = .010.","expected":{"verdict":"inconsistent","issue":"p-value"}}
+{"id":"stat-0014","text":"Results: The association was significant, χ²(1) = 3.841, p = .010.","expected":{"verdict":"inconsistent","issue":"p-value"}}
+{"id":"stat-0015","text":"Results: The correlation was significant, r(28) = .361, p = .010.","expected":{"verdict":"inconsistent","issue":"p-value"}}
+{"id":"stat-0016","text":"Results: The standardized difference was significant, z = 1.960, p = .010.","expected":{"verdict":"inconsistent","issue":"p-value"}}
+{"id":"stat-0017","text":"Results: The effect was significant, t(28) = 2.500, p = .050.","expected":{"verdict":"inconsistent","issue":"p-value"}}
+{"id":"stat-0018","text":"Results: The three-group test was significant, F(3, 40) = 2.84, p = .010.","expected":{"verdict":"inconsistent","issue":"p-value"}}
+{"id":"stat-0019","text":"Results: The four-level test was significant, χ²(3) = 7.815, p = .010.","expected":{"verdict":"inconsistent","issue":"p-value"}}
+{"id":"stat-0020","text":"Results: The correlation was significant, r(40) = .304, p = .010.","expected":{"verdict":"inconsistent","issue":"p-value"}}
+{"id":"stat-0021","text":"Results: A null effect was reported as significant, z = 0.500, p = .050.","expected":{"verdict":"inconsistent","issue":"p-value"}}
+{"id":"stat-0022","text":"Results: A null effect was reported as significant, t(28) = 0.500, p = .010.","expected":{"verdict":"inconsistent","issue":"p-value"}}
+{"id":"stat-0023","text":"Results: A null effect was reported as significant, F(2, 27) = 1.000, p = .010.","expected":{"verdict":"inconsistent","issue":"p-value"}}
+{"id":"stat-0024","text":"Results: A null effect was reported as significant, χ²(1) = 1.000, p = .010.","expected":{"verdict":"inconsistent","issue":"p-value"}}
+{"id":"stat-0025","text":"Results: The effect was significant, t(28) = 2.200, p = .036, 95% CI [-0.10, 0.80].","expected":{"verdict":"inconsistent","issue":"ci"}}
+{"id":"stat-0026","text":"Results: The effect was significant, t(28) = 2.500, p = .019, 95% CI [-0.05, 0.85].","expected":{"verdict":"inconsistent","issue":"ci"}}
+{"id":"stat-0027","text":"Results: The association was significant, χ²(1) = 3.841, p = .500.","expected":{"verdict":"inconsistent","issue":"p-value"}}
+{"id":"stat-0028","text":"Results: The effect was significant, t(28) = 2.048, p = .000.","expected":{"verdict":"inconsistent","issue":"format"}}
+{"id":"stat-0029","text":"Results: The effect was significant, F(2, 27) = 3.354, p = 1.20.","expected":{"verdict":"inconsistent","issue":"format"}}
+{"id":"stat-0030","text":"Results: The effect was significant, t(28) = 2.048, p < .010.","expected":{"verdict":"inconsistent","issue":"p-threshold"}}

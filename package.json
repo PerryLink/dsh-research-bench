@@ -6,9 +6,11 @@
   "type": "module",
   "license": "Apache-2.0",
   "scripts": {
-    "generate": "node scripts/generate-citations.mjs",
+    "generate": "node scripts/generate-citations.mjs && node scripts/generate-stats.mjs",
     "validate": "node scripts/validate.mjs",
-    "check": "node scripts/generate-citations.mjs && node scripts/validate.mjs"
+    "check": "npm run generate && node scripts/validate.mjs"
   },
-  "engines": { "node": "^22.19.0 || >=24.9.0" }
+  "engines": {
+    "node": "^22.19.0 || >=24.9.0"
+  }
 }

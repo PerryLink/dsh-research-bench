@@ -17,6 +17,10 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   that plugin adapters implement.
 - CI check that regeneration does not change committed data.
 
+- `data/stats` v0.1.0: 30 synthetic sentences around published critical values
+  (10 consistent, 20 inconsistent) with labels from the critical-value tables;
+  generator, schema, rubric and validator coverage.
+
 ### Notes
 
 - All works/DOIs/venues are fictional; provider responses are constructed

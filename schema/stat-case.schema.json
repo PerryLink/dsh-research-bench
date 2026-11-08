@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/PerryLink/dsh-research-bench/main/schema/stat-case.schema.json",
+  "title": "Statistical consistency benchmark case",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "text", "expected"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^stat-[0-9]{4}$" },
+    "text": { "type": "string", "minLength": 1, "maxLength": 2000 },
+    "expected": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["verdict", "issue"],
+      "properties": {
+        "verdict": { "enum": ["consistent", "inconsistent"] },
+        "issue": { "enum": ["p-value", "p-threshold", "ci", "format", "df", null] }
+      }
+    }
+  }
+}

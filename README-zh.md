@@ -22,7 +22,7 @@
 | 数据集 | 条数 | 状态 | 消费者 |
 |---|---:|---|---|
 | `data/citations` | **100** | ✅ 冻结 | `dsh-cite-verify` |
-| `data/stats` | 30 | 🚧 随 `dsh-statcheck` | `dsh-statcheck` |
+| `data/stats` | **30** | ✅ 冻结 | `dsh-statcheck` |
 | `data/claims` | 50 | 🚧 随 `dsh-claim-check`（W2） | `dsh-claim-check` |
 | `data/repro` | 10 | 🚧 随 `dsh-repro-audit`（W2） | `dsh-repro-audit` |
 | `data/manuscripts` | 10 | 🚧 随 `dsh-manuscript-check`（W3） | `dsh-manuscript-check` |
@@ -58,8 +58,8 @@
 ## 复现
 
 ```sh
-node scripts/generate-citations.mjs     # 确定性生成，重写 data/citations
-node scripts/validate.mjs               # 结构 + 计数 + 标签空间
+npm run generate        # 确定性生成，重写 data/citations 与 data/stats
+npm run validate        # 结构 + 计数 + 标签空间
 ```
 
 CI 两者都跑，并断言“重新生成后工作树无变化” —— 数据集不能悄悄漂移。

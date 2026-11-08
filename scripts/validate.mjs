@@ -65,10 +65,12 @@ for (const [category, count] of Object.entries(byCategory)) {
   if (summary.byCategory[category] !== count) fail(`SUMMARY.byCategory.${category} disagrees (${count})`)
 }
 
-// ── stats (added with dsh-statcheck; optional until then) ──────────────────
+// ── stats ───────────────────────────────────────────────────────────────────
+let statCount = 0
 try {
   const statCases = readJsonl('data/stats/cases.jsonl')
   if (statCases.length !== 30) fail(`expected 30 stat cases, found ${statCases.length}`)
+  statCount = statCases.length
   const statIds = new Set()
   for (const item of statCases) {
     if (!/^stat-[0-9]{4}$/u.test(item.id ?? '')) fail(`bad stat id ${String(item.id)}`)
@@ -81,4 +83,4 @@ try {
   if (error?.code !== 'ENOENT') throw error
 }
 
-console.log(`validate: ok (${citationCases.length} citation cases, ${Object.keys(byCategory).length} categories)`)
+console.log(`validate: ok (${citationCases.length} citation cases in ${Object.keys(byCategory).length} categories, ${statCount} stat cases)`)

@@ -24,11 +24,20 @@ Every plugin in the family claims to *verify* something. A claim without a measu
 | Dataset | Cases | Status | Consumer |
 |---|---:|---|---|
 | `data/citations` | **100** | ✅ frozen | `dsh-cite-verify` |
-| `data/stats` | 30 | 🚧 with `dsh-statcheck` (next) | `dsh-statcheck` |
+| `data/stats` | **30** | ✅ frozen | `dsh-statcheck` |
 | `data/claims` | 50 | 🚧 with `dsh-claim-check` (W2) | `dsh-claim-check` |
 | `data/repro` | 10 | 🚧 with `dsh-repro-audit` (W2) | `dsh-repro-audit` |
 | `data/manuscripts` | 10 | 🚧 with `dsh-manuscript-check` (W3) | `dsh-manuscript-check` |
 | `data/figures` | 100 pairs | 🚧 with `dsh-image-integrity` (W4) | `dsh-image-integrity` |
+
+### `data/stats` (v0.1.0, frozen)
+
+30 synthetic sentences around published critical values: 10 consistent (the
+reported p is the probability that the reported critical statistic corresponds
+to) and 20 inconsistent (wrong p, wrong threshold, CI contradicts a significant
+p, `p = .000`, `p > 1`). Labels come from the critical-value tables — not from
+the plugin. Format: [`schema/stat-case.schema.json`](schema/stat-case.schema.json);
+rules: [`rubric/STATS.md`](rubric/STATS.md).
 
 ### `data/citations` (v0.1.0, frozen)
 
@@ -76,8 +85,8 @@ A plugin README must report all of the above (or explicitly state which it does 
 ## Reproduce
 
 ```sh
-node scripts/generate-citations.mjs     # deterministic; rewrites data/citations
-node scripts/validate.mjs               # structure + counts + label space
+npm run generate        # deterministic; rewrites data/citations and data/stats
+npm run validate        # structure + counts + label space
 ```
 
 CI runs both and fails if regeneration changes a committed file — the dataset cannot silently drift.
