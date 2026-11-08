@@ -28,9 +28,14 @@ Every plugin in the family claims to *verify* something. A claim without a measu
 | `data/claims` | **50** | ✅ frozen | `dsh-claim-check` |
 | `data/images` | **100 pairs** | ✅ frozen | `dsh-image-integrity` |
 | `data/meta` | **20** | ✅ frozen | `dsh-meta-analysis` |
+| `data/claims-heldout` | **50** | ✅ frozen | `dsh-claim-check` (separate held-out set) |
 | `data/repro` | 10 | 🚧 with `dsh-repro-audit` (W2) | `dsh-repro-audit` |
 | `data/manuscripts` | 10 | 🚧 with `dsh-manuscript-check` (W3) | `dsh-manuscript-check` |
 | `data/figures` | 100 pairs | 🚧 with `dsh-image-integrity` (W4) | `dsh-image-integrity` |
+
+### `data/claims-heldout` (v0.1.0, frozen)
+
+50 new claim/source pairs written after the baseline was frozen, with 7 new synthetic sources and no verbatim reuse. The file is hash-pinned in `SUMMARY.json`, and the runner refuses to run if the hash changed. It is a **same-author time-split**, not a blind or unbiased estimate: the author read the implementation before writing the cases. Results are reported separately from the baseline.
 
 ### `data/meta` (v0.1.0, frozen)
 
@@ -110,7 +115,7 @@ A plugin README must report all of the above (or explicitly state which it does 
 ## Reproduce
 
 ```sh
-npm run generate        # deterministic; rewrites data/citations, data/stats, data/claims, data/images and data/meta
+npm run generate        # deterministic; rewrites data/citations, data/stats, data/claims, data/claims-heldout, data/images and data/meta
 npm run validate        # structure + counts + categories + label space + SUMMARY agreement
 ```
 
@@ -127,7 +132,7 @@ CI runs both and fails if regeneration changes a committed file — the dataset 
 - Synthetic works have clean, English, well-formed metadata; real bibliographies contain transliteration, name particles, superscripts and venue abbreviations that this set does not exercise.
 - Frozen fixtures cannot catch provider-side format changes; those are covered by the plugins' own tests.
 - The labels encode the rubric of *this* repository. A disagreement between a plugin and a label is a finding to review, not automatically a plugin bug.
-- Citations, stats, claims, images and meta are frozen at v0.1.0. The repro and manuscripts datasets are still planned and will be versioned independently.
+- Citations, stats, claims, claims-heldout, images and meta are frozen at v0.1.0. The repro and manuscripts datasets are still planned and will be versioned independently.
 - The claims v0.1 set is a co-designed regression baseline (see the caveat above); it is not a held-out test set.
 
 ## Versioning

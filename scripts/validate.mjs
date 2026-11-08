@@ -1,5 +1,6 @@
 // Validate the committed benchmark data: structure, counts, label space,
 // summary agreement and the cross-field label rules. Deterministic; no deps.
+import { createHash } from 'node:crypto'
 import { readFileSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -335,7 +336,35 @@ const metaSummary = readJson('data/meta/SUMMARY.json')
 assertSummary('data/meta/SUMMARY.json', metaSummary, { dataset: 'meta', total: 20, counts: { byCategory: metaCounts } })
 if (!sameCounts(metaSummary.byCategory, metaCounts)) fail('data/meta/SUMMARY.json: byCategory disagrees with the dataset')
 
+
+// ── claims held-out ─────────────────────────────────────────────────────────
+const heldoutCases = readJsonl('data/claims-heldout/cases.jsonl')
+if (heldoutCases.length !== 50) fail(`expected 50 held-out claim cases, found ${heldoutCases.length}`)
+const heldoutIds = new Set()
+const heldoutCounts = {}
+const baselineTexts = new Set(readJsonl('data/claims/cases.jsonl').flatMap(item => [item.claim, item.source]))
+for (const [index, item] of heldoutCases.entries()) {
+  const where = `data/claims-heldout/cases.jsonl:${index + 1}`
+  if (typeof item.id !== 'string' || !/^claim-[0-9]{4}$/u.test(item.id)) fail(`${where}: bad id ${String(item.id)}`)
+  if (heldoutIds.has(item.id)) fail(`${where}: duplicate id ${item.id}`)
+  heldoutIds.add(item.id)
+  if (!Object.hasOwn(CLAIM_CATEGORIES, item.category)) fail(`${where}: unknown category ${String(item.category)}`)
+  if (!VERDICTS.includes(item.expected?.verdict)) fail(`${where}: bad expected.verdict`)
+  if (item.expected.verdict !== CLAIM_CATEGORIES[item.category]) fail(`${where}: category ${item.category} must be labelled ${CLAIM_CATEGORIES[item.category]}`)
+  if (baselineTexts.has(item.claim) || baselineTexts.has(item.source)) fail(`${where}: reuses a baseline case verbatim`)
+  heldoutCounts[item.category] = (heldoutCounts[item.category] ?? 0) + 1
+}
+if (!sameCounts(heldoutCounts, { supported: 15, paraphrase: 10, 'number-wrong': 8, negated: 7, 'quote-mined': 5, insufficient: 5 })) {
+  fail(`held-out category counts disagree with the frozen rubric: ${JSON.stringify(heldoutCounts)}`)
+}
+const heldoutSummary = readJson('data/claims-heldout/SUMMARY.json')
+if (heldoutSummary.heldOut !== true || heldoutSummary.frozen !== true) fail('data/claims-heldout/SUMMARY.json must declare heldOut and frozen')
+if (heldoutSummary.total !== 50) fail('data/claims-heldout/SUMMARY.json: wrong total')
+if (!sameCounts(heldoutSummary.byCategory, heldoutCounts)) fail('data/claims-heldout/SUMMARY.json: byCategory disagrees')
+const heldoutHash = createHash('sha256').update(readFileSync(path.join(root, 'data/claims-heldout/cases.jsonl'))).digest('hex')
+if (heldoutSummary.caseSha256 !== heldoutHash) fail('data/claims-heldout: SUMMARY.caseSha256 does not match the frozen cases file')
+
 console.log(
   `validate: ok (${citationCases.length} citation cases in ${Object.keys(citationCounts).length} categories, ` +
-    `${statCases.length} stat cases, ${claimCases.length} claim cases, ${imageCases.length} image pairs, ${metaCases.length} meta cases; counts, categories, labels and SUMMARY agree)`,
+    `${statCases.length} stat cases, ${claimCases.length} claim cases, ${imageCases.length} image pairs, ${metaCases.length} meta cases, ${heldoutCases.length} held-out claim cases; counts, categories, labels and SUMMARY agree)`,
 )

@@ -1,0 +1,48 @@
+{
+  "dataset": "claims-heldout",
+  "version": "0.1.0",
+  "heldOut": true,
+  "frozen": true,
+  "frozenAt": "2026-11-08",
+  "hashAlgorithm": "sha256",
+  "caseSha256": "016eaa67ba12ec1b3022e68dbc627b414c43733551fdd457b70dd1907e81d470",
+  "total": 50,
+  "byCategory": {
+    "supported": 15,
+    "paraphrase": 10,
+    "number-wrong": 8,
+    "negated": 7,
+    "quote-mined": 5,
+    "insufficient": 5
+  },
+  "byVerdict": {
+    "verified": 15,
+    "insufficient": 15,
+    "disproven": 8,
+    "contradicted": 12
+  },
+  "labelSpace": {
+    "verdict": [
+      "verified",
+      "unverified",
+      "insufficient",
+      "contradicted",
+      "disproven"
+    ]
+  },
+  "synthetic": true,
+  "sourceCount": 7,
+  "sourceSentenceCount": 28,
+  "sourceTopics": [
+    "battery",
+    "coral",
+    "minimumWage",
+    "recommender",
+    "canopy",
+    "sorghum",
+    "vocabulary"
+  ],
+  "authoredFrom": "rubric/CLAIMS.md",
+  "independence": "Written by the same rubric author as data/claims and frozen before the first evaluation run; a temporal hold-out, not a fully blind external set.",
+  "note": "Seven new synthetic sources; labels follow the category rule in rubric/CLAIMS.md and were frozen before any plugin prediction. Paraphrases are labelled insufficient by design: v0.1 claim checking is byte-level and does not do semantics."
+}

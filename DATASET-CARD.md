@@ -15,6 +15,7 @@ against.
 | claims | 50 | JSONL | `verdict` (`verified` / `insufficient` / `contradicted` / `disproven`), `category` |
 | images | 100 pairs | PNG + JSONL | `manipulated` (bool), `kind` (`duplicate` / `horizontal-flip` / `vertical-flip` / null) |
 | meta | 20 | JSONL | fixed/random effect, Q, I², τ², Egger flag |
+| claims-heldout | 50 | JSONL | verdict + category; hash-pinned, same-author time split |
 
 All three are frozen at v0.1.0; each carries a `version`, `total` and count map
 in its `SUMMARY.json`. The repro, manuscripts and figures datasets are still

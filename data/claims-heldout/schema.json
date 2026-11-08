@@ -1,0 +1,221 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/PerryLink/dsh-research-bench/main/data/claims-heldout/schema.json",
+  "title": "Held-out claim-support benchmark case",
+  "description": "One frozen held-out claim case; the category fixes the expected verdict.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "category",
+    "claim",
+    "source",
+    "expected"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^claim-[0-9]{4}$"
+    },
+    "category": {
+      "enum": [
+        "supported",
+        "paraphrase",
+        "number-wrong",
+        "negated",
+        "quote-mined",
+        "insufficient"
+      ]
+    },
+    "claim": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2000
+    },
+    "source": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4000
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 500
+    },
+    "expected": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "verdict"
+      ],
+      "properties": {
+        "verdict": {
+          "enum": [
+            "verified",
+            "unverified",
+            "insufficient",
+            "contradicted",
+            "disproven"
+          ]
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "category": {
+            "const": "supported"
+          }
+        },
+        "required": [
+          "category"
+        ]
+      },
+      "then": {
+        "properties": {
+          "expected": {
+            "properties": {
+              "verdict": {
+                "const": "verified"
+              }
+            },
+            "required": [
+              "verdict"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "category": {
+            "const": "paraphrase"
+          }
+        },
+        "required": [
+          "category"
+        ]
+      },
+      "then": {
+        "properties": {
+          "expected": {
+            "properties": {
+              "verdict": {
+                "const": "insufficient"
+              }
+            },
+            "required": [
+              "verdict"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "category": {
+            "const": "number-wrong"
+          }
+        },
+        "required": [
+          "category"
+        ]
+      },
+      "then": {
+        "properties": {
+          "expected": {
+            "properties": {
+              "verdict": {
+                "const": "disproven"
+              }
+            },
+            "required": [
+              "verdict"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "category": {
+            "const": "negated"
+          }
+        },
+        "required": [
+          "category"
+        ]
+      },
+      "then": {
+        "properties": {
+          "expected": {
+            "properties": {
+              "verdict": {
+                "const": "contradicted"
+              }
+            },
+            "required": [
+              "verdict"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "category": {
+            "const": "quote-mined"
+          }
+        },
+        "required": [
+          "category"
+        ]
+      },
+      "then": {
+        "properties": {
+          "expected": {
+            "properties": {
+              "verdict": {
+                "const": "contradicted"
+              }
+            },
+            "required": [
+              "verdict"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "category": {
+            "const": "insufficient"
+          }
+        },
+        "required": [
+          "category"
+        ]
+      },
+      "then": {
+        "properties": {
+          "expected": {
+            "properties": {
+              "verdict": {
+                "const": "insufficient"
+              }
+            },
+            "required": [
+              "verdict"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

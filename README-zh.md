@@ -28,9 +28,14 @@
 | `data/claims` | **50** | ✅ 已冻结 | `dsh-claim-check` |
 | `data/images` | **100 对** | ✅ 已冻结 | `dsh-image-integrity` |
 | `data/meta` | **20** | ✅ 已冻结 | `dsh-meta-analysis` |
+| `data/claims-heldout` | **50** | ✅ 已冻结 | `dsh-claim-check`（独立 held-out） |
 | `data/repro` | 10 | 🚧 随 `dsh-repro-audit`（W2） | `dsh-repro-audit` |
 | `data/manuscripts` | 10 | 🚧 随 `dsh-manuscript-check`（W3） | `dsh-manuscript-check` |
 | `data/figures` | 100 对 | 🚧 随 `dsh-image-integrity`（W4） | `dsh-image-integrity` |
+
+### `data/claims-heldout`（v0.1.0，已冻结）
+
+基线冻结后新写的 50 条 claim/source 对，7 段全新 source，与基线无逐字复用；哈希写入 `SUMMARY.json`，运行器发现哈希变化即拒绝运行。它是**同作者时间留出集**，不是盲测/无偏估计（作者写题前已读实现）；结果与基线分开报告。
 
 ### `data/meta`（v0.1.0，已冻结）
 
