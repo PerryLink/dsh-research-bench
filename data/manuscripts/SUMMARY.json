@@ -1,0 +1,153 @@
+{
+  "dataset": "manuscripts",
+  "version": "0.1.0",
+  "total": 10,
+  "synthetic": true,
+  "itemSpace": [
+    "title",
+    "abstract",
+    "introduction",
+    "methods",
+    "results",
+    "discussion",
+    "conclusion",
+    "ethics",
+    "consent",
+    "funding",
+    "conflicts",
+    "data",
+    "contributions",
+    "registration"
+  ],
+  "statusSpace": [
+    "present",
+    "missing"
+  ],
+  "coreSections": [
+    "abstract",
+    "introduction",
+    "methods",
+    "results",
+    "discussion"
+  ],
+  "labelCounts": {
+    "items": 140,
+    "present": 135,
+    "missing": 5
+  },
+  "byCategory": {
+    "complete-consort": 1,
+    "missing-ethics-consent": 1,
+    "missing-data-availability": 1,
+    "missing-randomization": 1,
+    "missing-abstract": 1,
+    "missing-statistical-methods": 1,
+    "strobe-cohort": 1,
+    "prisma-review": 1,
+    "plain-text-title": 1,
+    "mixed-language-title": 1
+  },
+  "byMissingItem": {
+    "title": 0,
+    "abstract": 1,
+    "introduction": 0,
+    "methods": 0,
+    "results": 0,
+    "discussion": 0,
+    "conclusion": 0,
+    "ethics": 1,
+    "consent": 1,
+    "funding": 0,
+    "conflicts": 0,
+    "data": 1,
+    "contributions": 0,
+    "registration": 1
+  },
+  "missingByDocument": {
+    "ms-0001": [],
+    "ms-0002": [
+      "ethics",
+      "consent"
+    ],
+    "ms-0003": [
+      "data"
+    ],
+    "ms-0004": [
+      "registration"
+    ],
+    "ms-0005": [
+      "abstract"
+    ],
+    "ms-0006": [],
+    "ms-0007": [],
+    "ms-0008": [],
+    "ms-0009": [],
+    "ms-0010": []
+  },
+  "coreMissing": {
+    "documentsWithMissingCore": 1,
+    "bySection": {
+      "abstract": 1,
+      "introduction": 0,
+      "methods": 0,
+      "results": 0,
+      "discussion": 0
+    }
+  },
+  "wordCount": {
+    "min": 525,
+    "max": 774,
+    "total": 6361,
+    "mean": 636.1
+  },
+  "byTag": {
+    "all-items-present": 3,
+    "cohort": 2,
+    "complete": 1,
+    "consort": 1,
+    "content-complete": 1,
+    "controlled-trial": 1,
+    "discourse-summary": 1,
+    "meta-analysis": 1,
+    "missing-abstract": 1,
+    "missing-consent": 1,
+    "missing-data-availability": 1,
+    "missing-ethics": 1,
+    "missing-randomization": 1,
+    "missing-registration": 1,
+    "missing-statistical-methods": 1,
+    "mixed-language-title": 1,
+    "no-markdown": 1,
+    "paraphrased-declarations": 1,
+    "pilot-study": 1,
+    "plain-title": 1,
+    "prisma": 1,
+    "randomized-trial": 3,
+    "strobe": 1,
+    "systematic-review": 1
+  },
+  "labelSpace": {
+    "item": [
+      "title",
+      "abstract",
+      "introduction",
+      "methods",
+      "results",
+      "discussion",
+      "conclusion",
+      "ethics",
+      "consent",
+      "funding",
+      "conflicts",
+      "data",
+      "contributions",
+      "registration"
+    ],
+    "status": [
+      "present",
+      "missing"
+    ]
+  },
+  "groundTruth": "labels assigned by construction in this generator (no plugin import, no plugin output); missingCoreSections derived from the declared core-section set; every author, institution, award and registry identifier is fictional.",
+  "caseSchema": "schema.json"
+}

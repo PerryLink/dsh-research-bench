@@ -1,0 +1,213 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/PerryLink/dsh-research-bench/main/data/manuscripts/schema.json",
+  "title": "Synthetic manuscript-check benchmark case",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "category",
+    "description",
+    "tags",
+    "wordCount",
+    "text",
+    "expected"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^ms-[0-9]{4}$"
+    },
+    "category": {
+      "enum": [
+        "complete-consort",
+        "missing-ethics-consent",
+        "missing-data-availability",
+        "missing-randomization",
+        "missing-abstract",
+        "missing-statistical-methods",
+        "strobe-cohort",
+        "prisma-review",
+        "plain-text-title",
+        "mixed-language-title"
+      ]
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 400
+    },
+    "tags": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 24,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "all-items-present",
+          "cohort",
+          "complete",
+          "consort",
+          "content-complete",
+          "controlled-trial",
+          "discourse-summary",
+          "meta-analysis",
+          "missing-abstract",
+          "missing-consent",
+          "missing-data-availability",
+          "missing-ethics",
+          "missing-randomization",
+          "missing-registration",
+          "missing-statistical-methods",
+          "mixed-language-title",
+          "no-markdown",
+          "paraphrased-declarations",
+          "pilot-study",
+          "plain-title",
+          "prisma",
+          "randomized-trial",
+          "strobe",
+          "systematic-review"
+        ]
+      }
+    },
+    "wordCount": {
+      "type": "integer",
+      "minimum": 300,
+      "maximum": 800
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1
+    },
+    "expected": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "items",
+        "missingCoreSections"
+      ],
+      "properties": {
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "title",
+            "abstract",
+            "introduction",
+            "methods",
+            "results",
+            "discussion",
+            "conclusion",
+            "ethics",
+            "consent",
+            "funding",
+            "conflicts",
+            "data",
+            "contributions",
+            "registration"
+          ],
+          "properties": {
+            "title": {
+              "enum": [
+                "present",
+                "missing"
+              ]
+            },
+            "abstract": {
+              "enum": [
+                "present",
+                "missing"
+              ]
+            },
+            "introduction": {
+              "enum": [
+                "present",
+                "missing"
+              ]
+            },
+            "methods": {
+              "enum": [
+                "present",
+                "missing"
+              ]
+            },
+            "results": {
+              "enum": [
+                "present",
+                "missing"
+              ]
+            },
+            "discussion": {
+              "enum": [
+                "present",
+                "missing"
+              ]
+            },
+            "conclusion": {
+              "enum": [
+                "present",
+                "missing"
+              ]
+            },
+            "ethics": {
+              "enum": [
+                "present",
+                "missing"
+              ]
+            },
+            "consent": {
+              "enum": [
+                "present",
+                "missing"
+              ]
+            },
+            "funding": {
+              "enum": [
+                "present",
+                "missing"
+              ]
+            },
+            "conflicts": {
+              "enum": [
+                "present",
+                "missing"
+              ]
+            },
+            "data": {
+              "enum": [
+                "present",
+                "missing"
+              ]
+            },
+            "contributions": {
+              "enum": [
+                "present",
+                "missing"
+              ]
+            },
+            "registration": {
+              "enum": [
+                "present",
+                "missing"
+              ]
+            }
+          }
+        },
+        "missingCoreSections": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "abstract",
+              "introduction",
+              "methods",
+              "results",
+              "discussion"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

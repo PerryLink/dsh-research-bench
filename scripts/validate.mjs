@@ -364,7 +364,44 @@ if (!sameCounts(heldoutSummary.byCategory, heldoutCounts)) fail('data/claims-hel
 const heldoutHash = createHash('sha256').update(readFileSync(path.join(root, 'data/claims-heldout/cases.jsonl'))).digest('hex')
 if (heldoutSummary.caseSha256 !== heldoutHash) fail('data/claims-heldout: SUMMARY.caseSha256 does not match the frozen cases file')
 
+
+// ── manuscripts ─────────────────────────────────────────────────────────────
+const manuscriptCases = readJsonl('data/manuscripts/cases.jsonl')
+if (manuscriptCases.length !== 10) fail(`expected 10 manuscript cases, found ${manuscriptCases.length}`)
+const MANUSCRIPT_ITEMS = ['title','abstract','introduction','methods','results','discussion','conclusion','ethics','consent','funding','conflicts','data','contributions','registration']
+const MANUSCRIPT_CORE = ['abstract','introduction','methods','results','discussion']
+const manuscriptCategoryCounts = {}
+let manuscriptLabels = 0
+for (const [index, item] of manuscriptCases.entries()) {
+  const where = `data/manuscripts/cases.jsonl:${index + 1}`
+  if (typeof item.id !== 'string' || !/^ms-[0-9]{4}$/u.test(item.id)) fail(`${where}: bad id ${String(item.id)}`)
+  if (typeof item.text !== 'string' || item.text.length < 200) fail(`${where}: text missing or too short`)
+  if (typeof item.category !== 'string' || item.category === '') fail(`${where}: category missing`)
+  const items = item.expected?.items
+  if (typeof items !== 'object' || items === null) fail(`${where}: expected.items missing`)
+  const keys = Object.keys(items)
+  if (keys.length !== MANUSCRIPT_ITEMS.length || !MANUSCRIPT_ITEMS.every(key => keys.includes(key))) fail(`${where}: expected.items must cover exactly the 14 items`)
+  for (const key of MANUSCRIPT_ITEMS) {
+    if (!['present','missing'].includes(items[key])) fail(`${where}: bad status for ${key}`)
+    manuscriptLabels += 1
+  }
+  if (!Array.isArray(item.expected.missingCoreSections)) fail(`${where}: expected.missingCoreSections must be an array`)
+  for (const section of item.expected.missingCoreSections) {
+    if (!MANUSCRIPT_CORE.includes(section)) fail(`${where}: unknown core section ${section}`)
+    if (items[section] !== 'missing') fail(`${where}: core section ${section} is listed missing but item status is ${items[section]}`)
+  }
+  for (const section of MANUSCRIPT_CORE) {
+    if (items[section] === 'missing' && !item.expected.missingCoreSections.includes(section)) fail(`${where}: ${section} missing but not listed in missingCoreSections`)
+  }
+  manuscriptCategoryCounts[item.category] = (manuscriptCategoryCounts[item.category] ?? 0) + 1
+}
+if (manuscriptLabels !== 140) fail(`expected 140 manuscript item labels, found ${manuscriptLabels}`)
+const manuscriptSummary = readJson('data/manuscripts/SUMMARY.json')
+if (manuscriptSummary.dataset !== 'manuscripts' || manuscriptSummary.total !== 10) fail('data/manuscripts/SUMMARY.json: wrong dataset or total')
+if (manuscriptSummary.synthetic !== true) fail('data/manuscripts/SUMMARY.json must declare synthetic: true')
+if (!sameCounts(manuscriptSummary.byCategory, manuscriptCategoryCounts)) fail('data/manuscripts/SUMMARY.json: byCategory disagrees')
+
 console.log(
   `validate: ok (${citationCases.length} citation cases in ${Object.keys(citationCounts).length} categories, ` +
-    `${statCases.length} stat cases, ${claimCases.length} claim cases, ${imageCases.length} image pairs, ${metaCases.length} meta cases, ${heldoutCases.length} held-out claim cases; counts, categories, labels and SUMMARY agree)`,
+    `${statCases.length} stat cases, ${claimCases.length} claim cases, ${imageCases.length} image pairs, ${metaCases.length} meta cases, ${heldoutCases.length} held-out claim cases, ${manuscriptCases.length} manuscripts (${manuscriptLabels} labels); counts, categories, labels and SUMMARY agree)`,
 )
