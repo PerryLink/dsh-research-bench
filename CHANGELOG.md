@@ -6,6 +6,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+- Packaging: version 0.1.1 metadata refresh (author, version); data unchanged.
+
 ### Fixed
 
 - CI now regenerates citations, stats and claims before the drift check (it

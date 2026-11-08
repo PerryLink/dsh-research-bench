@@ -1,6 +1,6 @@
 {
   "name": "dsh-research-bench",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "description": "Open, synthetic, frozen benchmarks for the PerryLink DSH research plugin family: citation verification, claim support, statistical consistency, reproducibility audits, manuscript checks and figure reuse. Data + rubric + scoring contract; not a plugin.",
   "type": "module",
@@ -12,5 +12,6 @@
   },
   "engines": {
     "node": "^22.19.0 || >=24.9.0"
-  }
+  },
+  "author": "PerryLink contributors"
 }
