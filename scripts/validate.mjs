@@ -293,7 +293,49 @@ const imageSummary = readJson('data/images/SUMMARY.json')
 if (imageSummary.dataset !== 'images' || imageSummary.total !== 100) fail('data/images/SUMMARY.json: wrong dataset or total')
 if (!sameCounts(imageSummary.byCategory, imageCounts)) fail('data/images/SUMMARY.json: byCategory disagrees with the dataset')
 
+
+// ── meta ────────────────────────────────────────────────────────────────────
+const metaCases = readJsonl('data/meta/cases.jsonl')
+if (metaCases.length !== 20) fail(`expected 20 meta cases, found ${metaCases.length}`)
+const META_CATEGORIES = { homogeneous: 5, 'medium-heterogeneity': 5, 'high-heterogeneity': 4, 'zero-effect': 2, 'negative-effect': 2, 'small-k': 2 }
+const metaCounts = Object.fromEntries(Object.keys(META_CATEGORIES).map(category => [category, 0]))
+const metaIds = new Set()
+const finite = value => typeof value === 'number' && Number.isFinite(value)
+for (const [index, item] of metaCases.entries()) {
+  const where = `data/meta/cases.jsonl:${index + 1}`
+  if (typeof item.id !== 'string' || !/^meta-[0-9]{4}$/u.test(item.id)) fail(`${where}: bad id ${String(item.id)}`)
+  if (metaIds.has(item.id)) fail(`${where}: duplicate id ${item.id}`)
+  metaIds.add(item.id)
+  if (!Object.hasOwn(META_CATEGORIES, item.category)) fail(`${where}: unknown category ${String(item.category)}`)
+  if (!Array.isArray(item.studies) || item.studies.length < 2) fail(`${where}: studies must have at least two entries`)
+  const expected = item.expected
+  if (typeof expected !== 'object' || expected === null) fail(`${where}: expected missing`)
+  if (expected.k !== item.studies.length) fail(`${where}: expected.k disagrees with studies.length`)
+  if (expected.df !== item.studies.length - 1) fail(`${where}: expected.df must be k-1`)
+  for (const model of ['fixed', 'random']) {
+    for (const field of ['effect', 'se', 'ciLow', 'ciHigh']) {
+      if (!finite(expected[model]?.[field])) fail(`${where}: expected.${model}.${field} must be finite`)
+    }
+    if (expected[model].ciLow > expected[model].effect || expected[model].ciHigh < expected[model].effect) fail(`${where}: expected.${model} CI does not cover the effect`)
+  }
+  for (const field of ['Q', 'pQ', 'I2', 'tau2']) if (!finite(expected[field])) fail(`${where}: expected.${field} must be finite`)
+  if (expected.Q < 0) fail(`${where}: Q must be non-negative`)
+  if (expected.I2 < 0 || expected.I2 > 1) fail(`${where}: I2 must be in [0,1]`)
+  if (expected.tau2 < 0) fail(`${where}: tau2 must be non-negative`)
+  if (typeof expected.egger !== 'boolean') fail(`${where}: expected.egger must be boolean`)
+  if (expected.egger !== (item.studies.length >= 10)) fail(`${where}: Egger flag must be true exactly when k >= 10`)
+  for (const study of item.studies) {
+    if (typeof study.label !== 'string' || !finite(study.effect)) fail(`${where}: study label/effect invalid`)
+    if (!(finite(study.se) && study.se > 0) && !(finite(study.ciLow) && finite(study.ciHigh) && study.ciHigh > study.ciLow)) fail(`${where}: study needs a positive SE or a CI`)
+  }
+  metaCounts[item.category] += 1
+}
+if (!sameCounts(metaCounts, META_CATEGORIES)) fail(`meta category counts disagree with the frozen rubric: ${JSON.stringify(metaCounts)}`)
+const metaSummary = readJson('data/meta/SUMMARY.json')
+assertSummary('data/meta/SUMMARY.json', metaSummary, { dataset: 'meta', total: 20, counts: { byCategory: metaCounts } })
+if (!sameCounts(metaSummary.byCategory, metaCounts)) fail('data/meta/SUMMARY.json: byCategory disagrees with the dataset')
+
 console.log(
   `validate: ok (${citationCases.length} citation cases in ${Object.keys(citationCounts).length} categories, ` +
-    `${statCases.length} stat cases, ${claimCases.length} claim cases, ${imageCases.length} image pairs; counts, categories, labels and SUMMARY agree)`,
+    `${statCases.length} stat cases, ${claimCases.length} claim cases, ${imageCases.length} image pairs, ${metaCases.length} meta cases; counts, categories, labels and SUMMARY agree)`,
 )

@@ -27,9 +27,14 @@
 | `data/stats` | **30** | ✅ 已冻结 | `dsh-statcheck` |
 | `data/claims` | **50** | ✅ 已冻结 | `dsh-claim-check` |
 | `data/images` | **100 对** | ✅ 已冻结 | `dsh-image-integrity` |
+| `data/meta` | **20** | ✅ 已冻结 | `dsh-meta-analysis` |
 | `data/repro` | 10 | 🚧 随 `dsh-repro-audit`（W2） | `dsh-repro-audit` |
 | `data/manuscripts` | 10 | 🚧 随 `dsh-manuscript-check`（W3） | `dsh-manuscript-check` |
 | `data/figures` | 100 对 | 🚧 随 `dsh-image-integrity`（W4） | `dsh-image-integrity` |
+
+### `data/meta`（v0.1.0，已冻结）
+
+20 组合成元分析（153 条研究行），覆盖同质、中/高异质、零/负效应、k=2/5/10/12 与等/不等 SE。固定/随机合并值、Q、I²、τ² 由生成器中的独立闭式实现计算，不由插件反推；插件 README 报告实测最大绝对误差与限制（同 DL 模型、无缺失）。
 
 ### `data/images`（v0.1.0，已冻结）
 

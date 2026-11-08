@@ -27,9 +27,14 @@ Every plugin in the family claims to *verify* something. A claim without a measu
 | `data/stats` | **30** | ✅ frozen | `dsh-statcheck` |
 | `data/claims` | **50** | ✅ frozen | `dsh-claim-check` |
 | `data/images` | **100 pairs** | ✅ frozen | `dsh-image-integrity` |
+| `data/meta` | **20** | ✅ frozen | `dsh-meta-analysis` |
 | `data/repro` | 10 | 🚧 with `dsh-repro-audit` (W2) | `dsh-repro-audit` |
 | `data/manuscripts` | 10 | 🚧 with `dsh-manuscript-check` (W3) | `dsh-manuscript-check` |
 | `data/figures` | 100 pairs | 🚧 with `dsh-image-integrity` (W4) | `dsh-image-integrity` |
+
+### `data/meta` (v0.1.0, frozen)
+
+20 synthetic meta-analyses (153 study rows) spanning homogeneous, medium/high heterogeneity, zero/negative effects, k=2/5/10/12 and equal/unequal SEs. The expected fixed/random estimates, Q, I² and τ² are computed by an independent closed-form implementation in the generator, not by the plugin; the plugin README reports the measured maximum absolute error and the limits (same DL model, no missingness).
 
 ### `data/images` (v0.1.0, frozen)
 
@@ -105,7 +110,7 @@ A plugin README must report all of the above (or explicitly state which it does 
 ## Reproduce
 
 ```sh
-npm run generate        # deterministic; rewrites data/citations, data/stats, data/claims and data/images
+npm run generate        # deterministic; rewrites data/citations, data/stats, data/claims, data/images and data/meta
 npm run validate        # structure + counts + categories + label space + SUMMARY agreement
 ```
 
@@ -122,7 +127,7 @@ CI runs both and fails if regeneration changes a committed file — the dataset 
 - Synthetic works have clean, English, well-formed metadata; real bibliographies contain transliteration, name particles, superscripts and venue abbreviations that this set does not exercise.
 - Frozen fixtures cannot catch provider-side format changes; those are covered by the plugins' own tests.
 - The labels encode the rubric of *this* repository. A disagreement between a plugin and a label is a finding to review, not automatically a plugin bug.
-- Citations, stats, claims and images are frozen at v0.1.0. The repro and manuscripts datasets are still planned and will be versioned independently.
+- Citations, stats, claims, images and meta are frozen at v0.1.0. The repro and manuscripts datasets are still planned and will be versioned independently.
 - The claims v0.1 set is a co-designed regression baseline (see the caveat above); it is not a held-out test set.
 
 ## Versioning

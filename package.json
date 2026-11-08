@@ -6,7 +6,7 @@
   "type": "module",
   "license": "Apache-2.0",
   "scripts": {
-    "generate": "node scripts/generate-citations.mjs && node scripts/generate-stats.mjs && node scripts/generate-claims.mjs && node scripts/generate-images.mjs",
+    "generate": "node scripts/generate-citations.mjs && node scripts/generate-stats.mjs && node scripts/generate-claims.mjs && node scripts/generate-images.mjs && node scripts/generate-meta.mjs",
     "validate": "node scripts/validate.mjs",
     "check": "npm run generate && node scripts/validate.mjs"
   },

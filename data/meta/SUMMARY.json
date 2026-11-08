@@ -1,0 +1,112 @@
+{
+  "dataset": "meta",
+  "version": "0.1.0",
+  "total": 20,
+  "synthetic": true,
+  "confidenceLevel": 0.95,
+  "zCritical": 1.959963984540054,
+  "byCategory": {
+    "homogeneous": 5,
+    "medium-heterogeneity": 5,
+    "high-heterogeneity": 4,
+    "zero-effect": 2,
+    "negative-effect": 2,
+    "small-k": 2
+  },
+  "byK": {
+    "2": 4,
+    "5": 5,
+    "10": 6,
+    "12": 5
+  },
+  "bySeStructure": {
+    "equal": 10,
+    "unequal": 10
+  },
+  "byInput": {
+    "se": 13,
+    "ci": 6,
+    "mixed": 1
+  },
+  "egger": {
+    "run": 11,
+    "notRun": 9,
+    "boundaryK": 10,
+    "boundaryCases": 6
+  },
+  "byTag": {
+    "k2": 4,
+    "k5": 5,
+    "k10": 6,
+    "k12": 5,
+    "equal-se": 10,
+    "unequal-se": 10,
+    "se-input": 13,
+    "ci-input": 6,
+    "mixed-input": 1,
+    "egger-run": 11,
+    "egger-boundary": 6,
+    "egger-not-run": 9,
+    "wide-narrow-weights": 9,
+    "small-k": 2,
+    "positive-effect": 12,
+    "negative-effect": 3,
+    "zero-effect": 3,
+    "sign-flip": 2,
+    "symmetric-effects": 2,
+    "q-zero": 2,
+    "i2-zero": 5,
+    "tau2-zero": 5
+  },
+  "labelSpace": {
+    "category": [
+      "homogeneous",
+      "medium-heterogeneity",
+      "high-heterogeneity",
+      "zero-effect",
+      "negative-effect",
+      "small-k"
+    ],
+    "k": [
+      2,
+      5,
+      10,
+      12
+    ],
+    "seStructure": [
+      "equal",
+      "unequal"
+    ],
+    "input": [
+      "se",
+      "ci",
+      "mixed"
+    ],
+    "tag": [
+      "k2",
+      "k5",
+      "k10",
+      "k12",
+      "equal-se",
+      "unequal-se",
+      "se-input",
+      "ci-input",
+      "mixed-input",
+      "egger-run",
+      "egger-boundary",
+      "egger-not-run",
+      "wide-narrow-weights",
+      "small-k",
+      "positive-effect",
+      "negative-effect",
+      "zero-effect",
+      "sign-flip",
+      "symmetric-effects",
+      "q-zero",
+      "i2-zero",
+      "tau2-zero"
+    ]
+  },
+  "groundTruth": "closed-form inverse-variance pooling and DerSimonian-Laird tau^2 computed by the generator itself (no plugin import, no plugin output); pQ from the finite-sum chi-square survival formula for integer df; CIs use z = 1.959963984540054.",
+  "caseSchema": "schema.json"
+}
