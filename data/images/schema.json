@@ -1,0 +1,140 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/PerryLink/dsh-research-bench/main/data/images/schema.json",
+  "title": "Synthetic image-reuse benchmark case",
+  "description": "One line of data/images/cases.jsonl. The image files are data/images/cases/<id>/a.png and b.png (64x64, 8-bit grey). Labels come from the generator, never from a plugin.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "category",
+    "expected",
+    "description"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^img-[0-9]{4}$"
+    },
+    "category": {
+      "enum": [
+        "duplicate",
+        "flip",
+        "unrelated",
+        "hard-negative"
+      ]
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 500
+    },
+    "expected": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "manipulated",
+        "kind"
+      ],
+      "properties": {
+        "manipulated": {
+          "type": "boolean"
+        },
+        "kind": {
+          "enum": [
+            "duplicate",
+            "horizontal-flip",
+            "vertical-flip",
+            null
+          ]
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "category": {
+            "const": "duplicate"
+          }
+        },
+        "required": [
+          "category"
+        ]
+      },
+      "then": {
+        "properties": {
+          "expected": {
+            "properties": {
+              "manipulated": {
+                "const": true
+              },
+              "kind": {
+                "const": "duplicate"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "category": {
+            "const": "flip"
+          }
+        },
+        "required": [
+          "category"
+        ]
+      },
+      "then": {
+        "properties": {
+          "expected": {
+            "properties": {
+              "manipulated": {
+                "const": true
+              },
+              "kind": {
+                "enum": [
+                  "horizontal-flip",
+                  "vertical-flip"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "category": {
+            "enum": [
+              "unrelated",
+              "hard-negative"
+            ]
+          }
+        },
+        "required": [
+          "category"
+        ]
+      },
+      "then": {
+        "properties": {
+          "expected": {
+            "properties": {
+              "manipulated": {
+                "const": false
+              },
+              "kind": {
+                "const": null
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

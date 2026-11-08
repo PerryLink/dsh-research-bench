@@ -1,0 +1,40 @@
+{
+  "dataset": "images",
+  "version": "0.1.0",
+  "total": 100,
+  "byCategory": {
+    "duplicate": 25,
+    "flip": 25,
+    "unrelated": 25,
+    "hard-negative": 25
+  },
+  "byExpectedKind": {
+    "duplicate": 25,
+    "horizontal-flip": 13,
+    "vertical-flip": 12,
+    "none": 50
+  },
+  "image": {
+    "width": 64,
+    "height": 64,
+    "format": "8-bit greyscale PNG",
+    "blockSize": 16,
+    "grid": "4x4",
+    "colors": 256
+  },
+  "labelSpace": {
+    "manipulated": [
+      true,
+      false
+    ],
+    "kind": [
+      "duplicate",
+      "horizontal-flip",
+      "vertical-flip",
+      null
+    ]
+  },
+  "synthetic": true,
+  "groundTruth": "Category and expected kind are assigned by this generator at construction time; a detector output is never used as a label.",
+  "schema": "data/images/schema.json"
+}

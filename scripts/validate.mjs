@@ -253,7 +253,47 @@ if (JSON.stringify(claimSummary.labelSpace?.verdict) !== JSON.stringify(VERDICTS
   fail('claim SUMMARY.labelSpace.verdict disagrees with the validator')
 }
 
+
+// ── images ──────────────────────────────────────────────────────────────────
+const imageCases = readJsonl('data/images/cases.jsonl')
+if (imageCases.length !== 100) fail(`expected 100 image pairs, found ${imageCases.length}`)
+const IMAGE_CATEGORIES = {
+  duplicate: { manipulated: true },
+  flip: { manipulated: true },
+  unrelated: { manipulated: false },
+  'hard-negative': { manipulated: false },
+}
+const imageCounts = Object.fromEntries(Object.keys(IMAGE_CATEGORIES).map(category => [category, 0]))
+const imageIds = new Set()
+const png = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a])
+for (const [index, item] of imageCases.entries()) {
+  const where = `data/images/cases.jsonl:${index + 1}`
+  if (typeof item.id !== 'string' || !/^img-[0-9]{4}$/u.test(item.id)) fail(`${where}: bad id ${String(item.id)}`)
+  if (imageIds.has(item.id)) fail(`${where}: duplicate id ${item.id}`)
+  imageIds.add(item.id)
+  if (!Object.hasOwn(IMAGE_CATEGORIES, item.category)) fail(`${where}: unknown category ${String(item.category)}`)
+  if (typeof item.expected !== 'object' || item.expected === null || Array.isArray(item.expected)) fail(`${where}: expected must be an object`)
+  if (typeof item.expected.manipulated !== 'boolean') fail(`${where}: expected.manipulated must be boolean`)
+  if (item.expected.manipulated !== IMAGE_CATEGORIES[item.category].manipulated) fail(`${where}: category ${item.category} has the wrong manipulated label`)
+  if (item.category === 'duplicate' && item.expected.kind !== 'duplicate') fail(`${where}: duplicate cases must label kind=duplicate`)
+  if (item.category === 'flip' && !['horizontal-flip', 'vertical-flip'].includes(item.expected.kind)) fail(`${where}: flip cases must label a flip kind`)
+  if (!item.expected.manipulated && item.expected.kind != null) fail(`${where}: negative cases must not carry a kind`)
+  for (const file of ['a.png', 'b.png']) {
+    const imagePath = path.join(root, 'data/images/cases', item.id, file)
+    let bytes
+    try { bytes = readFileSync(imagePath) } catch { fail(`${where}: missing ${file}`) }
+    if (bytes.length < 8 || !bytes.subarray(0, 8).equals(png)) fail(`${where}: ${file} is not a PNG`)
+  }
+  imageCounts[item.category] += 1
+}
+if (!sameCounts(imageCounts, { duplicate: 25, flip: 25, unrelated: 25, 'hard-negative': 25 })) {
+  fail(`image category counts disagree with the frozen rubric: ${JSON.stringify(imageCounts)}`)
+}
+const imageSummary = readJson('data/images/SUMMARY.json')
+if (imageSummary.dataset !== 'images' || imageSummary.total !== 100) fail('data/images/SUMMARY.json: wrong dataset or total')
+if (!sameCounts(imageSummary.byCategory, imageCounts)) fail('data/images/SUMMARY.json: byCategory disagrees with the dataset')
+
 console.log(
   `validate: ok (${citationCases.length} citation cases in ${Object.keys(citationCounts).length} categories, ` +
-    `${statCases.length} stat cases, ${claimCases.length} claim cases; counts, categories, labels and SUMMARY agree)`,
+    `${statCases.length} stat cases, ${claimCases.length} claim cases, ${imageCases.length} image pairs; counts, categories, labels and SUMMARY agree)`,
 )

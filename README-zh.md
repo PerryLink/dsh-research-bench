@@ -26,9 +26,14 @@
 | `data/citations` | **100** | ✅ 已冻结 | `dsh-cite-verify` |
 | `data/stats` | **30** | ✅ 已冻结 | `dsh-statcheck` |
 | `data/claims` | **50** | ✅ 已冻结 | `dsh-claim-check` |
+| `data/images` | **100 对** | ✅ 已冻结 | `dsh-image-integrity` |
 | `data/repro` | 10 | 🚧 随 `dsh-repro-audit`（W2） | `dsh-repro-audit` |
 | `data/manuscripts` | 10 | 🚧 随 `dsh-manuscript-check`（W3） | `dsh-manuscript-check` |
 | `data/figures` | 100 对 | 🚧 随 `dsh-image-integrity`（W4） | `dsh-image-integrity` |
+
+### `data/images`（v0.1.0，已冻结）
+
+100 对合成 64×64 PNG：25 对重复块、25 对镜像块、25 对无关、25 对仅共享平坦边框的难负例。标签由生成器给出，不由检测器反推。检测器 README 必须引用实测 precision/recall/FPR，并说明 fixture 是网格对齐且未压缩的。
 
 ### `data/claims`（v0.1.0，已冻结）
 
@@ -86,7 +91,7 @@
 ## 复现
 
 ```sh
-npm run generate        # deterministic; rewrites data/citations, data/stats and data/claims
+npm run generate        # 确定性；重写 data/citations、data/stats、data/claims 与 data/images
 npm run validate        # structure + counts + categories + label space + SUMMARY agreement
 ```
 
@@ -103,7 +108,7 @@ CI 会运行这两个命令，并在重新生成会改动已提交文件时判�
 - 合成工作具有干净、英文、格式规整的元数据；真实文献中的转写、姓名助词、上标与期刊缩写，这个数据集都没有覆盖。
 - 冻结 fixture 无法捕捉数据源一侧的格式变更；这类问题由插件自身的测试覆盖。
 - 标签编码的是*本仓库*的评分规则。插件与标签不一致，是一个需要复核的发现，而不是自动等同于插件有 bug。
-- citations、stats 与 claims 冻结在 v0.1.0。repro、manuscripts 与 figures 数据集仍在计划中，并将独立进行版本管理。
+- citations、stats、claims 与 images 冻结在 v0.1.0。repro 与 manuscripts 数据集仍在计划中，并将独立进行版本管理。
 - claims v0.1 数据集是共同设计的回归基线（见上文有效性说明）；它不是 held-out 测试集。
 
 ## 版本管理
