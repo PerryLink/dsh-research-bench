@@ -39,6 +39,12 @@ number-wrong (`disproven`), 7 negation-flips and 5 quote-mines (`contradicted`),
 [`schema/claim-case.schema.json`](schema/claim-case.schema.json); rules and the
 validity caveat: [`rubric/CLAIMS.md`](rubric/CLAIMS.md).
 
+> **Validity caveat.** The v0.1 claim cases were written from the same rubric as
+> `dsh-claim-check`'s rules and one rule was corrected after a supported case
+> failed. The 1.0 numbers on this set are a **regression baseline, not an
+> unbiased estimate** of real-manuscript accuracy. A held-out set authored
+> without reference to the implementation is still planned.
+
 ### `data/stats` (v0.1.0, frozen)
 
 30 synthetic sentences around published critical values: 10 consistent (the
@@ -94,8 +100,8 @@ A plugin README must report all of the above (or explicitly state which it does 
 ## Reproduce
 
 ```sh
-npm run generate        # deterministic; rewrites data/citations and data/stats
-npm run validate        # structure + counts + label space
+npm run generate        # deterministic; rewrites data/citations, data/stats and data/claims
+npm run validate        # structure + counts + categories + label space + SUMMARY agreement
 ```
 
 CI runs both and fails if regeneration changes a committed file — the dataset cannot silently drift.
@@ -111,7 +117,8 @@ CI runs both and fails if regeneration changes a committed file — the dataset 
 - Synthetic works have clean, English, well-formed metadata; real bibliographies contain transliteration, name particles, superscripts and venue abbreviations that this set does not exercise.
 - Frozen fixtures cannot catch provider-side format changes; those are covered by the plugins' own tests.
 - The labels encode the rubric of *this* repository. A disagreement between a plugin and a label is a finding to review, not automatically a plugin bug.
-- Only the citation dataset is frozen today; the others are added with their consumers and will be versioned independently.
+- Citations, stats and claims are frozen at v0.1.0. The repro, manuscripts and figures datasets are still planned and will be versioned independently.
+- The claims v0.1 set is a co-designed regression baseline (see the caveat above); it is not a held-out test set.
 
 ## Versioning
 

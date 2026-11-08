@@ -17,8 +17,8 @@ jobs:
         with:
           node-version: 24
       - name: Regenerate (must match the committed data)
-        run: node scripts/generate-citations.mjs
+        run: npm run generate
       - name: No drift
         run: git diff --exit-code -- data/
       - name: Validate
-        run: node scripts/validate.mjs
+        run: npm run validate

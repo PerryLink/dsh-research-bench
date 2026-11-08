@@ -47,6 +47,8 @@
 
 格式：每行一个 JSON，schema 见 [`schema/citation-case.schema.json`](schema/citation-case.schema.json)；标签与指标定义见 [`rubric/CITATIONS.md`](rubric/CITATIONS.md)。
 
+> **声明数据集的有效性说明。** v0.1 的 claims 用例与 `dsh-claim-check` 的规则从同一份量表写成，且有一条规则在某个 supported 用例失败后被修正。该集合上的 1.0 是**回归基线，不是真实稿件准确率的无偏估计**；与实现无关的 held-out 集仍在计划中（见 [`rubric/CLAIMS.md`](rubric/CLAIMS.md)）。
+
 ## 打分契约
 
 适配器：读 `cases.jsonl`（`BENCH_DIR` 或 `../dsh-research-bench`）→ 用冻结响应跑插件自己的管线（不联网）→ 每条给出预测 `{exists, mismatch_fields, update_notice}` → 计算指标并输出 JSON + Markdown。
@@ -58,8 +60,8 @@
 ## 复现
 
 ```sh
-npm run generate        # 确定性生成，重写 data/citations 与 data/stats
-npm run validate        # 结构 + 计数 + 标签空间
+npm run generate        # 确定性生成，重写 data/citations、data/stats 与 data/claims
+npm run validate        # 结构 + 计数 + 分类 + 标签空间 + SUMMARY 一致性
 ```
 
 CI 两者都跑，并断言“重新生成后工作树无变化” —— 数据集不能悄悄漂移。
@@ -75,4 +77,5 @@ CI 两者都跑，并断言“重新生成后工作树无变化” —— 数据
 - 合成元数据干净、英文、格式规整；真实文献的音译、姓名助词、上标、期刊缩写未被覆盖。
 - 冻结 fixture 无法发现数据源格式变更；那由插件自身测试覆盖。
 - 标签编码的是本仓量表；插件与标签不一致是需要复核的发现，不自动等于插件 bug。
-- 目前只有引用数据集冻结，其余随消费者加入并独立升版。
+- citations / stats / claims 均冻结在 v0.1.0；repro、manuscripts、figures 仍为计划中，随消费者加入并独立升版。
+- claims v0.1 是与检测器共同设计的回归基线（见上方有效性说明），不是 held-out 测试集。
