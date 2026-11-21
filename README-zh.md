@@ -149,7 +149,7 @@ CI 会运行这两个命令，并在重新生成会改动已提交文件时判�
 - 合成工作具有干净、英文、格式规整的元数据；真实文献中的转写、姓名助词、上标与期刊缩写，这个数据集都没有覆盖。
 - 冻结 fixture 无法捕捉数据源一侧的格式变更；这类问题由插件自身的测试覆盖。
 - 标签编码的是*本仓库*的评分规则。插件与标签不一致，是一个需要复核的发现，而不是自动等同于插件有 bug。
-- 六套数据集全部冻结在 v0.1.0：citations、stats、claims、claims-heldout、images、meta、manuscripts 与 repro。
+- 八套数据集全部冻结在 v0.1.0：citations、stats、claims、claims-heldout、images、meta、manuscripts 与 repro。
 - claims v0.1 数据集是共同设计的回归基线（见上文有效性说明）；它不是 held-out 测试集。
 
 ## 版本管理

@@ -163,7 +163,7 @@ CI runs both and fails if regeneration changes a committed file — the dataset 
 - Synthetic works have clean, English, well-formed metadata; real bibliographies contain transliteration, name particles, superscripts and venue abbreviations that this set does not exercise.
 - Frozen fixtures cannot catch provider-side format changes; those are covered by the plugins' own tests.
 - The labels encode the rubric of *this* repository. A disagreement between a plugin and a label is a finding to review, not automatically a plugin bug.
-- All six datasets are frozen at v0.1.0: citations, stats, claims, claims-heldout, images, meta, manuscripts and repro.
+- All eight datasets are frozen at v0.1.0: citations, stats, claims, claims-heldout, images, meta, manuscripts and repro.
 - The claims v0.1 set is a co-designed regression baseline (see the caveat above); it is not a held-out test set.
 
 ## Versioning

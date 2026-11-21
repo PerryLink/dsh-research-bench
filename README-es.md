@@ -163,7 +163,7 @@ CI ejecuta ambos y falla si la regeneración cambia un archivo confirmado — el
 - Los trabajos sintéticos tienen metadatos limpios, en inglés y bien formados; las bibliografías reales contienen transliteración, partículas de nombres, superíndices y abreviaturas de venue que este conjunto no ejercita.
 - Los fixtures congelados no pueden captar cambios de formato del lado del proveedor; esos los cubren los tests propios de los plugins.
 - Las etiquetas codifican la rúbrica de *este* repositorio. Una discrepancia entre un plugin y una etiqueta es un hallazgo que revisar, no automáticamente un bug del plugin.
-- Los seis conjuntos de datos están congelados en v0.1.0: citations, stats, claims, claims-heldout, images, meta, manuscripts y repro.
+- Los ocho conjuntos de datos están congelados en v0.1.0: citations, stats, claims, claims-heldout, images, meta, manuscripts y repro.
 - El conjunto claims v0.1 es una base de regresión co-diseñada (véase la advertencia anterior); no es un conjunto de prueba retenido.
 
 ## Versionado
