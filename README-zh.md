@@ -1,12 +1,22 @@
+<div align="center">
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-research-bench-hero-zh-dark.webp">
+  <img src="docs/assets/dsh-research-bench-hero-zh-light.webp" width="100%" alt="dsh-research-bench 配图：八套冻结基准数据集及其用例数与标签——citations 100 条 / 8 类、stats 30 条（10 条一致 / 20 条不一致）、claims 50 条、claims-heldout 50 条且哈希锁定；右侧是 SUMMARY.json 字段与打分契约：存在性、字段、更新通知、干净样本误报率与整案完全一致">
+</picture>
+
 # dsh-research-bench
 
 **面向 DSH 科研插件家族的开源、合成、冻结基准。**
 
 *数据 + 评分规则 + 打分契约 —— 不是插件。检测器的 README 只能引用由本仓库产生的数字。*
 
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
+[English](README.md) · [Español](README-es.md) · [Português](README-pt.md) · [हिन्दी](README-hi.md)
 
-[English](README.md) · 简体中文
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
+[![Node](https://img.shields.io/badge/node-%5E22.19%20%7C%7C%20%3E%3D24.9-brightgreen.svg)]()
+
+</div>
 
 ---
 
@@ -18,6 +28,14 @@
 - 标签来自**生成器的评分规则**，绝不来自插件的输出；
 - 每个想发布准确率的插件都必须附带一个**适配器**，读取这些文件并打印混淆矩阵；
 - 插件 README 中的数字必须写明数据集版本与确切命令。
+
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-research-bench-flow-v5-dark.svg">
+  <img src="docs/assets/dsh-research-bench-flow-v5-light.svg" width="100%" alt="dsh-research-bench 结构图：确定性生成器按数据集冻结 cases.jsonl 与 SUMMARY.json，validate.mjs 在 CI 中校验计数、类别、标签空间与 SUMMARY 一致性，插件适配器用用例自带的冻结数据源 fixture 打出逐用例预测与 micro 平均指标；标签来自生成器的评分规则，不一致是需要复核的发现">
+</picture>
+
+*结构：冻结 → 校验 → 打分。输入是 `cases.jsonl` 与冻结的数据源 fixture；输出是逐用例预测（`exists`、`mismatch_fields`、`update_notice`）与 micro 平均指标。标签来自生成器的评分规则，绝不来自插件；每个公开的数字都必须写明数据集版本与产生它的命令。*
 
 ## 数据集
 
@@ -107,6 +125,11 @@
 插件 README 必须报告上述全部指标（或明确说明哪一项未报告及其原因），并写明数据集版本与产生这些数字的命令。
 
 ## 复现
+
+![dsh-research-bench 真实运行：生成器输出 citations 100 条 / 8 类、stats 30 条（10 条一致 / 20 条不一致）、claims-heldout 冻结的 sha256、manuscripts 135 项存在 / 5 项缺失，以及 repro 的 6 个 gap 代码；随后是校验器真实的一行 validate: ok](docs/assets/dsh-research-bench-demo.gif)
+
+*动图是真实 stdout。上段是生成器（`npm run generate`，用 `--silent` 去掉 npm 横幅）；下段是校验器（`node scripts/validate.mjs`，用 `fold` 折行以适配终端）。两段均于 2026-11-21 复跑；重生成后 `git status` 干净。*
+
 
 ```sh
 npm run generate        # 确定性；重写 data/citations、data/stats、data/claims 与 data/images

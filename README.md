@@ -1,12 +1,22 @@
+<div align="center">
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-research-bench-hero-en-dark.webp">
+  <img src="docs/assets/dsh-research-bench-hero-en-light.webp" width="100%" alt="dsh-research-bench: eight frozen benchmark datasets with their case counts and labels — citations 100 in 8 categories, stats 30 with 10 consistent and 20 inconsistent cases, claims 50, claims-heldout 50 hash-pinned — plus the SUMMARY.json fields and the scoring contract on the right: existence, field, update-notice, clean false-positive rate and exact match">
+</picture>
+
 # dsh-research-bench
 
 **Open, synthetic, frozen benchmarks for the DSH research plugin family.**
 
 *Data + rubric + a scoring contract — not a plugin. A detector's README may only quote numbers produced by this repository.*
 
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
+[简体中文](README-zh.md) · [Español](README-es.md) · [Português](README-pt.md) · [हिन्दी](README-hi.md)
 
-English · [简体中文](README-zh.md)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
+[![Node](https://img.shields.io/badge/node-%5E22.19%20%7C%7C%20%3E%3D24.9-brightgreen.svg)]()
+
+</div>
 
 ---
 
@@ -18,6 +28,14 @@ Every plugin in the family claims to *verify* something. A claim without a measu
 - the labels come from a **generator's rubric**, never from a plugin's output;
 - every plugin that wants to publish accuracy must ship an **adapter** that reads these files and prints a confusion matrix;
 - numbers in a plugin README must name the dataset version and the exact command.
+
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-research-bench-flow-v5-dark.svg">
+  <img src="docs/assets/dsh-research-bench-flow-v5-light.svg" width="100%" alt="dsh-research-bench structure: the deterministic generator freezes cases.jsonl and SUMMARY.json per dataset, validate.mjs checks counts, categories, label space and SUMMARY agreement in CI, and a plugin adapter scores each case from its frozen provider fixtures into a per-case prediction and micro-averaged metrics; labels come from the generator rubric and a disagreement is a finding to review">
+</picture>
+
+*Structure: freeze → validate → score. `cases.jsonl` and frozen provider fixtures go in; a per-case prediction (`exists`, `mismatch_fields`, `update_notice`) and micro-averaged metrics come out. Labels come from the generator's rubric, never from a plugin, and every published number must name its dataset version and the command that produced it.*
 
 ## Datasets
 
@@ -121,6 +139,11 @@ A plugin adapter is a script in the plugin repository that:
 A plugin README must report all of the above (or explicitly state which it does not report and why), with the dataset version and the command that produced them.
 
 ## Reproduce
+
+![dsh-research-bench: a real generator run — citations 100 cases in 8 categories, stats 30 with 10 consistent and 20 inconsistent verdicts, the frozen claims-heldout sha256, manuscripts 135 present / 5 missing labels, and six repro gap codes — followed by the validator's real exit-0 line](docs/assets/dsh-research-bench-demo.gif)
+
+*Animated: real stdout. Top, the generator (`npm run generate`, run with `--silent` to drop npm's banner); bottom, the validator (`node scripts/validate.mjs`), wrapped with `fold` for the terminal. Both re-run 2026-11-21; regeneration left `git status` clean.*
+
 
 ```sh
 npm run generate        # deterministic; rewrites data/citations, data/stats, data/claims, data/claims-heldout, data/images, data/meta, data/manuscripts and data/repro
